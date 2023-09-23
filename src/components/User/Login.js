@@ -12,8 +12,8 @@ const Login = () => {
 
   const onFinish = async (values) => {
     try {
-      await AuthService.login(values.email, values.password).then(() => {
-        navigate("/dashboard");
+      await AuthService.login(values.username, values.password).then(() => {
+        //navigate("/dashboard");
       });
     } catch (error) {
       setMessage("Login failed. Please check your credentials.");
@@ -39,12 +39,14 @@ const Login = () => {
           >
             <Title level={2}>Login</Title>
             <Form.Item
-              name="email"
-              rules={[{ required: true, message: "Please enter your email!" }]}
+              name="username"
+              rules={[
+                { required: true, message: "Please enter your username!" },
+              ]}
             >
               <Input
                 prefix={<UserOutlined className="site-form-item-icon" />}
-                placeholder="Email"
+                placeholder="Username"
               />
             </Form.Item>
             <Form.Item
