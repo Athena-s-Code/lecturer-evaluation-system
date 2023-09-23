@@ -13,8 +13,7 @@ const Register = () => {
     try {
       await AuthService.register(
         values.username,
-        values.password,
-        values.roles
+        values.password
       );
       setMessageText("Registration successful! You can now log in.");
       form.resetFields(); // Clear form fields on successful registration
@@ -50,14 +49,6 @@ const Register = () => {
               prefix={<LockOutlined className="site-form-item-icon" />}
               type="password"
               placeholder="Password"
-            />
-          </Form.Item>
-          <Form.Item name="roles">
-            <Input
-              placeholder="Roles (comma-separated)"
-              onChange={(e) =>
-                form.setFieldsValue({ roles: e.target.value.split(",") })
-              }
             />
           </Form.Item>
           <Form.Item>

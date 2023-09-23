@@ -1,24 +1,21 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 
-const API_URL = "https://localhost:8000/api/user";
+const API_URL = "http://localhost:8000/auth";
 
 class AuthService {
-  async login(email, password) {
+  async login(username, password) {
     try {
       const response = await axios.post(`${API_URL}/login`, {
-        email,
+        username,
         password,
       });
-      //console.log(response.data.token);
-
-      if (response.data.token) {
-        const decodedToken = JSON.stringify(jwtDecode(response.data.token));
-        console.log(decodedToken);
-        const userRole = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+      
+      if (response.data.jwt) {
+        const decodedString = JSON.stringify(jwtDecode(response.data.jwt));
+        const decodedToken = JSON.parse(decodedString);
+        console.log(decodedToken );
         localStorage.setItem("user", decodedToken);
-        localStorage.setItem("userRole", userRole);
-        console.log("This is role "+userRole);
       }
     } catch (error) {
       throw error;
@@ -29,11 +26,10 @@ class AuthService {
     localStorage.removeItem("user");
   }
 
-  register(username, password, roles) {
+  register(username, password) {
     return axios.post(`${API_URL}/register`, {
       username,
       password,
-      roles,
     });
   }
 
