@@ -1,23 +1,23 @@
 import React, { useState } from "react";
 import AuthService from "../../Services/AuthService";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 import { Form, Input, Button, Typography, Row, Col } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import "./Login.css";
+import { useDispatch } from "react-redux";
+import { userActions } from "../slices/userSlice";
+import { userLoginFunction } from "../actions/userActions";
+import { useNavigate } from "react-router-dom";
 const { Title } = Typography;
 
 const Login = () => {
+  const dispatch = useDispatch();
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
   const onFinish = async (values) => {
-    try {
-      await AuthService.login(values.username, values.password).then(() => {
-        //navigate("/dashboard");
-      });
-    } catch (error) {
-      setMessage("Login failed. Please check your credentials.");
-    }
+   dispatch(userLoginFunction(values.username, values.password));
+    navigate("/");
   };
 
   return (
